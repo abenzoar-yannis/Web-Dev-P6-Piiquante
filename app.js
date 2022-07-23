@@ -11,6 +11,9 @@ const app = express();
 Autre facon de faire avec bobyParser */
 app.use(express.json());
 
+/* IMPORT des routers */
+const userRoutes = require("./routes/user");
+
 /* Variables pour les identifiants de connection à MongoDB Atlas */
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
@@ -38,10 +41,8 @@ app.use((req, res, next) => {
   next();
 });
 
-/* Reponse du seveur pour tout type de requête */
-app.use((req, res) => {
-  res.json({ message: "Votre requête a bien été reçue !" });
-});
+/* Paramétrage des chemins pour les routes */
+app.use("/api/auth", userRoutes);
 
 /* EXPORT de l'application APP */
 module.exports = app;

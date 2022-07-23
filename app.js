@@ -11,13 +11,14 @@ const app = express();
 Autre facon de faire avec bobyParser */
 app.use(express.json());
 
-/* Variable pour mes identifiant de connection à MongoDB Atlas */
-const connectionID = process.env.DB_USER_PASS;
+/* Variables pour les identifiants de connection à MongoDB Atlas */
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD;
 
 /* Connection à la base de donnée MongoDB Atlas */
 mongoose
   .connect(
-    `mongodb+srv://${connectionID}@firstcluster.2ndaq.mongodb.net/?retryWrites=true&w=majority`,
+    `mongodb+srv://${dbUser}:${dbPassword}@firstcluster.2ndaq.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))

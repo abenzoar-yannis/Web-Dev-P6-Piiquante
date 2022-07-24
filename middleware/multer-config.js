@@ -1,14 +1,17 @@
-/* IMPORT de multer */
+/* Ce fichier contient la logique de gestion des fichiers entrants dans les requêtes HTTP */
+
+/* --- IMPORT --- */
+/* package 'multer' */
 const multer = require("multer");
 
-/* Dictionnaire de mine_type pour la gestion des extention des fichiers */
+/* Dictionnaire 'mine_type', qui défini les type de fichiers accepté */
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpg",
   "image/png": "png",
 };
 
-/* Configuration de multer */
+/* Configuration de multer pour cibler où enregistrer les fichiers entrants */
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, "images");

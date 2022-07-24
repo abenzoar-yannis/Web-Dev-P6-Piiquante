@@ -1,4 +1,7 @@
-/* IMPORT de jsonwebtoken */
+/* Ce fichier contient la logique de vérification du token d'authentification des utilisateurs, avant l'envoi d'une requêtes */
+
+/* --- IMPORT --- */
+/* package 'jsonwebtoken' */
 const jwt = require("jsonwebtoken");
 
 /* EXPORT du middleware d'authentification */

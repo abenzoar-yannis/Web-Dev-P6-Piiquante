@@ -1,32 +1,33 @@
-/* IMPORT d'express */
+/* --- IMPORT des PACKAGES --- */
+/* package 'express' */
 const express = require("express");
-/* IMPORT de dotenv */
-require("dotenv").config({ path: ".env" });
-/* IMPORT de mongoose */
+/* package 'mongoose */
 const mongoose = require("mongoose");
+/* package de 'dotenv' et charge les variables d'environnement stockées dans le fichier '.env' */
+require("dotenv").config({ path: ".env" });
 
-/* Creation de l'application express */
+/* chargement des fonctions d'express */
 const app = express();
-/* Permet l'extractionn du corp de la requête en JSON.
-Autre facon de faire avec bobyParser */
-app.use(express.json());
 
-/* IMPORT des routers */
+/* --- IMPORT ROUTES --- */
 const userRoutes = require("./routes/user");
 
-/* Variables pour les identifiants de connection à MongoDB Atlas */
-const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
+/* --- MIDDLEWARE --- */
+/* Permet l'extractionn du corp de la requête.
+Autre facon de faire avec 'bobyParser' */
+app.use(express.json());
 
+/* --- DATABASE --- */
 /* Connection à la base de donnée MongoDB Atlas */
 mongoose
   .connect(
-    `mongodb+srv://${dbUser}:${dbPassword}@firstcluster.2ndaq.mongodb.net/?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
+/* --- CORS --- */
 /* Paramétrage de CORS = Cross Origin Resource Sharing  */
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -41,8 +42,9 @@ app.use((req, res, next) => {
   next();
 });
 
+/* --- ROUTES PARAMETRE --- */
 /* Paramétrage des chemins pour les routes */
 app.use("/api/auth", userRoutes);
 
-/* EXPORT de l'application APP */
+/* EXPORT de l'application */
 module.exports = app;

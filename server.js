@@ -1,10 +1,13 @@
-/* IMPORT du package HTTP de Node */
-const http = require("http");
-/* IMPORT du fichier app.js de notre APP*/
-const app = require("./app");
+/* Ce fichier contient la normalisation de port, la gestion d'erreur et la logique de connexion du serveur Node */
 
-/* la fonction normalizePort renvoie un port valide, qu'il soit fourni 
-sous la forme d'un numéro ou d'une chaîne ; */
+/* IMPORT du package 'http' de Node */
+const http = require("http");
+/* IMPORT du fichier app.js qui contient la logique de l'app express */
+const app = require("./app");
+/* IMPORT du package de dotenv et charge les variables d'environnement stockées dans le fichier '.env' */
+require("dotenv").config({ path: ".env" });
+
+/* la fonction normalizePort renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne */
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -21,7 +24,7 @@ const normalizePort = (val) => {
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-/* la fonction errorHandler  recherche les différentes erreurs et 
+/* la fonction errorHandler recherche les différentes erreurs et 
 les gère de manière appropriée. Elle est ensuite enregistrée dans 
 le serveur ; */
 const errorHandler = (error) => {

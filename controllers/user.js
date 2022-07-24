@@ -1,13 +1,16 @@
-/* IMPORT de bcrypt */
-const bcrypt = require("bcrypt");
-/* IMPORT de jsonwebtoken */
-const jwt = require("jsonwebtoken");
+/* Ce fichier contient la logique métier pour les utilisateurs */
 
-/* IMPORT du model utilisateur */
+/* --- IMPORT --- */
+/* package 'bcrypt' */
+const bcrypt = require("bcrypt");
+/* package 'jsonwebtoken' */
+const jwt = require("jsonwebtoken");
+/* model utilisateur */
 const User = require("../models/user");
 
-/* Logique de métier pour l'enregistrement d'un utilisateur */
+/* EXPORT : Logique de métier pour l'enregistrement d'un utilisateur */
 exports.signup = (req, res, next) => {
+  /* Hachage du mot de passe, "salage" 10 fois */
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -15,6 +18,7 @@ exports.signup = (req, res, next) => {
         email: req.body.email,
         password: hash,
       });
+      /* Enregistrement du mot de passe salé */
       user
         .save()
         .then(() =>
@@ -25,7 +29,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-/* Logique de métier pour la connection d'un utilisateur */
+/* EXPORT : Logique de métier pour la connexion d'un utilisateur */
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
@@ -34,6 +38,7 @@ exports.login = (req, res, next) => {
           .status(401)
           .json({ message: "Login ou mot de passe incorrecte !" });
       }
+      /* comparer le mot de passe entré par l'utilisateur avec le hash enregistré dans la base de données */
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {

@@ -13,8 +13,12 @@ const auth = require("../middleware/auth");
 const multer = require("../middleware/multer-config");
 
 /* --- Logique des ROUTES --- */
-/* Création d'une nouvelle sauce (authentification et gestion des images avec multer) */
+/* Création d'une nouvelle sauce (authentification requise et gestion des images avec multer) */
 router.post("/", auth, multer, sauceCtrl.createSauce);
+/* récupérer toutes les sauces (authentification requise) */
+router.get("/", auth, sauceCtrl.getAllSauces);
+/* récupérer une sauce par son id (authentification requise) */
+router.get("/:id", auth, sauceCtrl.getOneSauce);
 
 /* EXPORT des routes */
 module.exports = router;

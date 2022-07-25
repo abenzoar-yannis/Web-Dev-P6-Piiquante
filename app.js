@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 /* package de 'dotenv' et charge les variables d'environnement stockées dans le fichier '.env' */
 require("dotenv").config({ path: ".env" });
 
+/* donne accès au chemin de fichiers */
+const path = require("path");
+
 /* chargement des fonctions d'express */
 const app = express();
 
@@ -44,6 +47,8 @@ app.use((req, res, next) => {
 });
 
 /* --- ROUTES PARAMETRE --- */
+/* gestion des requête vers le dossier '/images' */
+app.use("/images", express.static(path.join(__dirname, "images")));
 /* Paramétrage des chemins pour les routes */
 app.use("/api/auth", userRoutes);
 app.use("/api/sauces", sauceRoutes);

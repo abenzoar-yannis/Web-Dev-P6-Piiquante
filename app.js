@@ -11,6 +11,7 @@ const app = express();
 
 /* --- IMPORT ROUTES --- */
 const userRoutes = require("./routes/user");
+const sauceRoutes = require("./routes/sauce");
 
 /* --- MIDDLEWARE --- */
 /* Permet l'extractionn du corp de la requête.
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 /* --- ROUTES PARAMETRE --- */
 /* Paramétrage des chemins pour les routes */
 app.use("/api/auth", userRoutes);
+app.use("/api/sauces", sauceRoutes);
 
 /* EXPORT de l'application */
 module.exports = app;

@@ -1,0 +1,31 @@
+/* Ce fichier contient la logique métier pour les sauces */
+
+/* --- IMPORT --- */
+/* model sauces */
+const Sauce = require("../models/sauce");
+
+/* --- CONTROLLERS --- */
+/* Création de sauce */
+exports.createSauce = (req, res, next) => {
+  const sauceObject = JSON.parse(req.body.sauce);
+  delete sauceObject._id;
+  /* céation d'une nouvelle instance de l'objet Sauce en lui passant un objet JS */
+  const sauce = new Sauce({
+    /* on utlise l'opérateur spread ... pour faire une copie de tous les élements req.body */
+    ...sauceObject,
+    /* configuration de l'url de l'image */
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
+  });
+
+  /* Vérification de l'authentification de l'utilisateur avant enregistrement de la nouvelle sauce dans la base de donnée */
+  if (sauce.userId === req.auth.userId) {
+    sauce
+      .save()
+      .then((sauce) => res.status(201).json({ message: "Sauce enregistrée!" }))
+      .catch((error) => res.status(400).json({ error }));
+  } else {
+    res.status(403).json({ error: "Création non autorisée !" });
+  }
+};

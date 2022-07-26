@@ -24,5 +24,8 @@ router.delete("/:id", auth, sauceCtrl.deleteSauce);
 /* modifie une sauce (authentification requise et gestion des images avec multer) */
 router.put("/:id", auth, multer, sauceCtrl.modifySauce);
 
+/* 'like' et 'dislike' une sauce (authentification requise) */
+router.post("/:id/like", auth, sauceCtrl.likeASauce);
+
 /* EXPORT des routes */
 module.exports = router;

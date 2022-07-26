@@ -1,14 +1,16 @@
-# Web-Dev-P6-Piiquante
+# Web-Dev-P6-Piiquante #
 
 Projet 6 de la formation Web Developpeur d'OpenClassrooms 
 Construisez une API sécurisée pour une application d'avis gastronomiques, 'Piiquante'.
 Lien pour le frontend : https://github.com/OpenClassrooms-Student-Center/Web-Developer-P6
 
-## Technologies utilisées
+## Technologies utilisées ##
 
-Node, Express, MongoDB (base des données)
+- [Node.js]
+- [Express]
+- [MongoDB]
 
-## Variables d'environnement
+## Variables d'environnement ##
 
 Avant de lancer ce projet, vous devrez ajouter les variables d'environnement suivantes dans un fichier .env
 
@@ -18,15 +20,15 @@ Avant de lancer ce projet, vous devrez ajouter les variables d'environnement sui
 - DB_HOST
 - DB_NAME
 
-## Installation du backend
+## Installation du backend ##
 
-### Installer les dépendances
+### Installer les dépendances ###
 
 ```bash
 npm install
 ```
 
-### Démarrer le serveur
+### Démarrer le serveur ###
 
 Start :
 ```bash
@@ -37,3 +39,8 @@ Dev :
 ```bash
 nodemon server
 ```
+
+   [Node.js]: <http://nodejs.org>
+   [MongoDB]: <https://www.mongodb.com/>
+   [Express]: <http://expressjs.com>
+[//]: # (order for gitfolio)

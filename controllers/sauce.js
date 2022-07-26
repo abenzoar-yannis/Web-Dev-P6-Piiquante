@@ -76,3 +76,57 @@ exports.deleteSauce = (req, res, next) => {
     })
     .catch((error) => res.status(400).json({ error }));
 };
+
+/* modification d'une sauce */
+exports.modifySauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+    /* stockage des modification de la sauce */
+    const sauceObject = req.file
+      ? /* vérification de l'ajout d'un fichier image dans la requête */
+        {
+          /* Si le fichier image existe, on traite les strings et la nouvelle image */
+          ...JSON.parse(req.body.sauce),
+          /* on modifie l'url de l'image */
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+          }`,
+        }
+      : /* si pas de fichier image, on traite les autres élements du corps de la requête */
+        { ...req.body };
+
+    /* Si l'userId de la sauce modifiée est le même que l'userId de la sauce avant modification */
+    if (sauceObject.userId && sauceObject.userId !== sauce.userId) {
+      res.status(401).json({ error: "Modification non autorisée !" });
+    }
+
+    if (!sauce) {
+      return res.status(404).json({ error: "Sauce non trouvée !" });
+    }
+
+    /* suppresion de l'image modifié de notre dossier d'images */
+    if (req.file) {
+      Sauce.findOne({ _id: req.params.id })
+        .then((sauce) => {
+          const filename = sauce.imageUrl.split("/images/")[1];
+          fs.unlink(`images/${filename}`, (error) => {
+            if (error) {
+              throw new Error(error);
+            }
+          });
+        })
+        .catch((error) => res.status(400).json({ error: error.message }));
+    }
+
+    /* modification de la sauce */
+    Sauce.updateOne(
+      /* 1er argument : la sauce à modifier */
+      /* 2ème argument : la version modifié de la sauce, celle envoyée dans la requête */
+      { _id: req.params.id },
+      { ...sauceObject, _id: req.params.id }
+    )
+      .then((sauce) =>
+        res.status(200).json({ message: "Sauce bien modifiée !" })
+      )
+      .catch((error) => res.status(400).json(error));
+  });
+};

@@ -21,6 +21,8 @@ router.get("/", auth, sauceCtrl.getAllSauces);
 router.get("/:id", auth, sauceCtrl.getOneSauce);
 /* supprimer une sauce, (authentification requise, créateur de la sauce uniquement) */
 router.delete("/:id", auth, sauceCtrl.deleteSauce);
+/* modifie une sauce (authentification requise et gestion des images avec multer) */
+router.put("/:id", auth, multer, sauceCtrl.modifySauce);
 
 /* EXPORT des routes */
 module.exports = router;
